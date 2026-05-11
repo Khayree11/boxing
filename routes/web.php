@@ -4,38 +4,40 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\AdminMatchController;
 use App\Http\Controllers\AdminAuthController;
-use App\Http\Middleware\AdminAuthMiddleware;
 use App\Http\Controllers\FighterController;
+use App\Http\Middleware\AdminAuthMiddleware;
 
-// 1. Halaman utama untuk User (Guest / Publik, tidak perlu login)
+// 1. HALAMAN PENGUNJUNG (PUBLIK)
 Route::get('/', [EventController::class, 'index'])->name('home');
+Route::get('/fighters', [EventController::class, 'fighters'])->name('fighters');
 
-// --- TAMBAHAN ROUTE UNTUK NAVBAR ---
+// Halaman Events (Sementara masih tulisan)
 Route::get('/events', function () {
     return "Halaman Jadwal Event Lengkap (Coming Soon)";
 })->name('events');
 
-Route::get('/fighters', function () {
-    return "Halaman Profil Fighter (Coming Soon)";
-})->name('fighters');
-// -----------------------------------
 
-// 2. Jalur Login Admin (Tampil di /admin)
+// 2. JALUR LOGIN ADMIN
 Route::get('/admin', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin', [AdminAuthController::class, 'login']);
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-// 3. Halaman Manajemen Admin (Terproteksi Middleware)
+
+// 3. HALAMAN MANAJEMEN ADMIN (Terproteksi Middleware)
 Route::prefix('admin')->middleware(AdminAuthMiddleware::class)->group(function () {
     
+    // Manajemen Pertandingan
     Route::get('/matches', [AdminMatchController::class, 'index'])->name('admin.matches.index');
     Route::post('/matches', [AdminMatchController::class, 'store'])->name('admin.matches.store');
     Route::put('/matches/{id}/status', [AdminMatchController::class, 'updateStatus'])->name('admin.matches.updateStatus');
     Route::delete('/matches/{id}', [AdminMatchController::class, 'destroy'])->name('admin.matches.destroy');
+    
+    // Manajemen Setting Global (YouTube)
     Route::post('/settings/youtube', [AdminMatchController::class, 'updateYoutube'])->name('admin.settings.youtube');
+
+    // Manajemen Petarung (Fighters)
     Route::get('/fighters', [FighterController::class, 'index'])->name('admin.fighters.index');
     Route::post('/fighters', [FighterController::class, 'store'])->name('admin.fighters.store');
     Route::delete('/fighters/{id}', [FighterController::class, 'destroy'])->name('admin.fighters.destroy');
-    
     
 });

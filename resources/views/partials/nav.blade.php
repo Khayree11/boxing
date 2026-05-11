@@ -9,22 +9,28 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+                
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('/') ? 'active' : '' }}" href="{{ route('home') }}">HOME</a>
+                    <a class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}" href="{{ route('home') }}">HOME</a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('events*') ? 'active' : '' }}" href="#">EVENTS</a>
+                    <a class="nav-link {{ request()->routeIs('events') ? 'active' : '' }}" href="{{ route('events') }}">EVENTS</a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('fighters*') ? 'active' : '' }}" href="#">FIGHTERS</a>
+                    <a class="nav-link {{ request()->routeIs('fighters') ? 'active' : '' }}" href="{{ route('fighters') }}">FIGHTERS</a>
                 </li>
+                
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('fighters*') ? 'active' : '' }}" href="#">ABOUT</a>
+                    <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="#">ABOUT</a>
                 </li>
-                <li class="nav-item ms-lg-3">
-                    <a class="btn btn-outline-danger btn-sm px-3" href="{{ route('admin.login') }}">ADMIN</a>
+                
+                <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
+                    <a class="btn btn-outline-danger btn-sm px-3 w-100" href="{{ route('admin.login') }}">ADMIN</a>
                 </li>
+                
             </ul>
         </div>
     </div>
