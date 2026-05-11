@@ -5,6 +5,7 @@ use App\Http\Controllers\EventController;
 use App\Http\Controllers\AdminMatchController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Middleware\AdminAuthMiddleware;
+use App\Http\Controllers\FighterController;
 
 // 1. Halaman utama untuk User (Guest / Publik, tidak perlu login)
 Route::get('/', [EventController::class, 'index'])->name('home');
@@ -31,5 +32,10 @@ Route::prefix('admin')->middleware(AdminAuthMiddleware::class)->group(function (
     Route::post('/matches', [AdminMatchController::class, 'store'])->name('admin.matches.store');
     Route::put('/matches/{id}/status', [AdminMatchController::class, 'updateStatus'])->name('admin.matches.updateStatus');
     Route::delete('/matches/{id}', [AdminMatchController::class, 'destroy'])->name('admin.matches.destroy');
+    Route::post('/settings/youtube', [AdminMatchController::class, 'updateYoutube'])->name('admin.settings.youtube');
+    Route::get('/fighters', [FighterController::class, 'index'])->name('admin.fighters.index');
+    Route::post('/fighters', [FighterController::class, 'store'])->name('admin.fighters.store');
+    Route::delete('/fighters/{id}', [FighterController::class, 'destroy'])->name('admin.fighters.destroy');
+    
     
 });

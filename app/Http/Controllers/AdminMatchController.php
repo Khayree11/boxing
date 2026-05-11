@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\BoxingMatch;
-use App\Models\Fighter; // <-- INI YANG KURANG SEBELUMNYA
+use App\Models\Fighter;
+use App\Models\Setting;
 
 class AdminMatchController extends Controller
 {
     // Menampilkan halaman admin beserta daftar pertandingan
     public function index()
     {
-        // Mengambil data match beserta relasi ke fighterA dan fighterB
         $matches = BoxingMatch::with(['fighterA', 'fighterB'])->orderBy('scheduled_at', 'desc')->get();
-        
-        // Mengambil semua data petarung untuk ditampilkan di dropdown form
         $fighters = Fighter::orderBy('name', 'asc')->get(); 
         
-        return view('admin.matches.index', compact('matches', 'fighters'));
+        // Mengambil link youtube global saat ini
+        $youtubeLink = Setting::where('key', 'youtube_link')->first();
+        
+        return view('admin.matches.index', compact('matches', 'fighters', 'youtubeLink'));
     }
 
     // Menyimpan jadwal pertandingan baru
@@ -74,5 +75,17 @@ class AdminMatchController extends Controller
         $match->delete();
 
         return redirect()->back()->with('success', 'Pertandingan berhasil dihapus!');
+    }
+
+    public function updateYoutube(Request $request)
+    {
+        $request->validate(['youtube_link' => 'nullable|url']);
+
+        Setting::updateOrCreate(
+            ['key' => 'youtube_link'],
+            ['value' => $request->youtube_link]
+        );
+
+        return redirect()->back()->with('success', 'Link YouTube Global berhasil diperbarui!');
     }
 }

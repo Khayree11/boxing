@@ -3,77 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard - Combat Arena</title>
-    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
 
     <style>
-        body {
-            background-color: #f4f6f9;
-            font-family: 'Inter', sans-serif;
-            color: #333;
-        }
-        
-        /* Typography & Utilities */
-        h2 { font-weight: 700; color: #1a1a1a; letter-spacing: -0.5px; }
-        .text-muted { color: #888 !important; }
-        
-        /* Cards */
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            margin-bottom: 2rem;
-        }
-        .card-header {
-            background: linear-gradient(135deg, #111 0%, #333 100%);
-            color: #fff;
-            font-weight: 600;
-            border-radius: 12px 12px 0 0 !important;
-            padding: 1rem 1.5rem;
-            border-bottom: none;
-        }
-        
-        /* Forms */
-        .form-label { font-weight: 500; font-size: 0.9rem; margin-bottom: 0.3rem; }
+        body { background-color: #f4f6f9; font-family: 'Inter', sans-serif; color: #333; }
+        h2 { font-weight: 800; color: #1a1a1a; letter-spacing: -1px; text-transform: uppercase;}
+        .card { border: none; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); margin-bottom: 2rem; overflow: hidden; }
+        .card-header { font-weight: 600; padding: 1rem 1.5rem; border-bottom: none; }
+        .bg-gradient-dark { background: linear-gradient(135deg, #111 0%, #333 100%); color: white; }
         .form-control, .form-select { border-radius: 8px; border: 1px solid #ddd; padding: 0.6rem 1rem; }
         .form-control:focus, .form-select:focus { border-color: #e60000; box-shadow: 0 0 0 0.25rem rgba(230, 0, 0, 0.1); }
-        
-        /* Buttons */
         .btn { border-radius: 8px; font-weight: 500; padding: 0.5rem 1rem; }
-        .btn-brand { background-color: #e60000; color: #fff; border: none; }
-        .btn-brand:hover { background-color: #cc0000; color: #fff; }
-        
-        /* Table */
-        .table-wrapper { border-radius: 12px; overflow: hidden; border: 1px solid #eaeaea; background: #fff; }
-        .table { margin-bottom: 0; }
-        .table th { background-color: #f8f9fa; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #666; padding: 1rem; border-bottom: 2px solid #eaeaea; }
-        .table td { padding: 1.2rem 1rem; vertical-align: middle; border-bottom: 1px solid #f0f0f0; }
-        .table tbody tr:hover { background-color: #fcfcfc; }
-        
-        /* Custom Elements */
-        .fighter-name { font-weight: 600; font-size: 1.1rem; color: #111; }
-        .vs-badge { background-color: #e60000; color: white; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; font-weight: 700; font-style: italic; display: inline-block; margin: 4px 0; }
-        .action-column { min-width: 200px; }
+        .table th { background-color: #f8f9fa; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: #666; }
+        .fighter-name { font-weight: 700; font-size: 1.1rem; color: #111; }
+        .vs-badge { background-color: #e60000; color: white; font-size: 0.75rem; padding: 3px 8px; border-radius: 4px; font-weight: 800; font-style: italic; }
+        .animation-pulse { animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
 
     <div class="container py-5">
-        
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-5 gap-3 border-bottom pb-4">
             <div>
-                <h2><i class="fas fa-gavel me-2 text-danger"></i> Admin Dashboard</h2>
-                <p class="text-muted mb-0">Kelola jadwal pertandingan dan hasil akhir Combat Arena.</p>
+                <h2><i class="fas fa-satellite-dish me-2 text-danger"></i> Control Panel</h2>
+                <p class="text-muted mb-0">Atur jalannya event Combat Arena secara Real-Time.</p>
             </div>
             <div class="d-flex gap-2">
-                <a href="#" class="btn btn-secondary"><i class="fas fa-users me-1"></i> Data Petarung</a>
-                <a href="{{ route('home') }}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-external-link-alt me-1"></i> Lihat Web</a>
+                <a href="{{ route('admin.fighters.index') }}" class="btn btn-dark"><i class="fas fa-users me-1"></i> Database Petarung</a>
+                <a href="{{ route('home') }}" class="btn btn-outline-primary" target="_blank"><i class="fas fa-external-link-alt me-1"></i> Lihat Web Public</a>
                 <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
                     @csrf
-                    <button type="submit" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt me-1"></i> Logout</button>
+                    <button type="submit" class="btn btn-outline-danger"><i class="fas fa-sign-out-alt"></i></button>
                 </form>
             </div>
         </div>
@@ -81,137 +44,201 @@
         @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         @endif
 
-        <div class="card">
-            <div class="card-header"><i class="fas fa-plus-circle me-2"></i> Tambah Jadwal Pertandingan Baru</div>
-            <div class="card-body p-4">
-                <form action="{{ route('admin.matches.store') }}" method="POST">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white"><i class="fab fa-youtube me-2"></i> 1. Pengaturan Link Live Stream</div>
+            <div class="card-body">
+                <form action="{{ route('admin.settings.youtube') }}" method="POST" class="d-flex gap-3">
                     @csrf
-                    <div class="row g-3 align-items-end">
-                        
-                        <div class="col-md-3">
-                            <label class="form-label">Sudut Merah (Fighter A)</label>
-                            <select name="fighter_a_id" class="form-select" required>
-                                <option value="" selected disabled>-- Pilih Petarung --</option>
-                                @foreach($fighters as $fighter)
-                                    <option value="{{ $fighter->id }}">{{ $fighter->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-1 text-center pb-2">
-                            <span class="vs-badge">VS</span>
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <label class="form-label">Sudut Biru (Fighter B)</label>
-                            <select name="fighter_b_id" class="form-select" required>
-                                <option value="" selected disabled>-- Pilih Petarung --</option>
-                                @foreach($fighters as $fighter)
-                                    <option value="{{ $fighter->id }}">{{ $fighter->name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <label class="form-label">Jadwal Tanding</label>
-                            <input type="datetime-local" name="scheduled_at" class="form-control" required>
-                        </div>
-                        
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-brand w-100"><i class="fas fa-save me-1"></i> Simpan</button>
-                        </div>
-                    </div>
-                    
-                    <div class="row mt-3">
-                        <div class="col-12">
-                            <label class="form-label">Link YouTube Live <span class="text-muted fw-normal">(Opsional)</span></label>
-                            <input type="url" name="youtube_link" class="form-control" placeholder="https://youtube.com/watch?v=...">
-                        </div>
-                    </div>
+                    <input type="url" name="youtube_link" class="form-control form-control-lg" placeholder="Masukkan Link YouTube (contoh: https://youtu.be/...)" value="{{ $youtubeLink->value ?? '' }}">
+                    <button type="submit" class="btn btn-dark btn-lg" style="white-space: nowrap;">Update Link</button>
                 </form>
             </div>
         </div>
 
-        <div class="table-wrapper shadow-sm">
-            <table class="table table-borderless align-middle">
-                <thead>
-                    <tr>
-                        <th width="30%">Fight Card (A vs B)</th>
-                        <th width="20%">Jadwal</th>
-                        <th width="15%">Status</th>
-                        <th width="15%">Pemenang</th>
-                        <th width="20%" class="text-center">Aksi / Kontrol</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($matches as $match)
-                    <tr>
-                        <td>
-                            <div class="text-center d-inline-block">
-                                <div class="fighter-name">{{ $match->fighterA->name ?? 'Petarung Dihapus' }}</div>
-                                <div class="vs-badge">VS</div>
-                                <div class="fighter-name">{{ $match->fighterB->name ?? 'Petarung Dihapus' }}</div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="fw-medium">{{ \Carbon\Carbon::parse($match->scheduled_at)->format('d M Y') }}</div>
-                            <div class="text-muted small"><i class="far fa-clock me-1"></i> {{ \Carbon\Carbon::parse($match->scheduled_at)->format('H:i') }} WIB</div>
-                        </td>
-                        <td>
-                            @if($match->status == 'on_going')
-                                <span class="badge bg-danger rounded-pill px-3 py-2 animation-pulse"><i class="fas fa-circle me-1 small"></i> ON GOING</span>
-                            @elseif($match->status == 'finished')
-                                <span class="badge bg-success rounded-pill px-3 py-2"><i class="fas fa-check me-1 small"></i> FINISHED</span>
-                            @else
-                                <span class="badge bg-dark rounded-pill px-3 py-2"><i class="fas fa-calendar-alt me-1 small"></i> COMING SOON</span>
-                            @endif
-                        </td>
-                        <td>
-                            @if($match->winner)
-                                <span class="fw-bold text-success"><i class="fas fa-trophy me-1"></i> {{ $match->winner }}</span>
-                            @else
-                                <span class="text-muted">-</span>
-                            @endif
-                        </td>
-                        <td class="action-column">
-                            <form action="{{ route('admin.matches.updateStatus', $match->id) }}" method="POST" class="mb-2 bg-light p-2 rounded border">
-                                @csrf @method('PUT')
-                                <label class="form-label small text-muted mb-1">Ubah Status:</label>
-                                <select name="status" class="form-select form-select-sm mb-2" onchange="this.form.submit()">
-                                    <option value="coming_soon" {{ $match->status == 'coming_soon' ? 'selected' : '' }}>Coming Soon</option>
-                                    <option value="on_going" {{ $match->status == 'on_going' ? 'selected' : '' }}>On Going</option>
-                                    <option value="finished" {{ $match->status == 'finished' ? 'selected' : '' }}>Finished</option>
-                                </select>
-                                
-                                @if($match->status == 'on_going')
-                                    <input type="text" name="winner" placeholder="Input Nama Pemenang..." class="form-control form-control-sm mb-2" required>
-                                    <button type="submit" name="status" value="finished" class="btn btn-sm btn-dark w-100">Akhiri & Simpan Hasil</button>
-                                @endif
-                            </form>
+        @php
+            $liveMatch = $matches->where('status', 'on_going')->first();
+            $upcomingList = $matches->where('status', 'coming_soon')->sortBy('scheduled_at');
+            $finishedList = $matches->where('status', 'finished')->sortByDesc('scheduled_at');
+        @endphp
 
-                            <form action="{{ route('admin.matches.destroy', $match->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus jadwal ini secara permanen?')">
-                                @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-outline-danger w-100"><i class="fas fa-trash-alt me-1"></i> Hapus</button>
-                            </form>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="5" class="text-center py-5">
-                            <i class="fas fa-inbox fa-3x text-muted mb-3 d-block"></i>
-                            <h5 class="text-muted">Belum ada data pertandingan</h5>
-                            <p class="text-muted small">Jadwal pertandingan yang Anda tambahkan akan muncul di sini.</p>
-                        </td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+        <h4 class="mb-3 fw-bold mt-5"><i class="fas fa-crosshairs text-danger me-2"></i> 2. Sorotan Utama</h4>
         
+        @if($liveMatch)
+            <div class="card border-danger shadow border-2">
+                <div class="card-header bg-danger text-white fs-5">
+                    <i class="fas fa-circle me-2 animation-pulse"></i> SEDANG BERLANGSUNG (LIVE)
+                </div>
+                <div class="card-body text-center py-5 bg-white">
+                    <h1 class="fw-black" style="font-size: 2.5rem;">
+                        {{ $liveMatch->fighterA->name ?? 'TBA' }} 
+                        <span class="text-danger mx-3 fs-3 font-italic">VS</span> 
+                        {{ $liveMatch->fighterB->name ?? 'TBA' }}
+                    </h1>
+                    <p class="text-muted mt-2">Waktu Jadwal: {{ \Carbon\Carbon::parse($liveMatch->scheduled_at)->format('d M Y, H:i') }} WIB</p>
+                    
+                    <form action="{{ route('admin.matches.updateStatus', $liveMatch->id) }}" method="POST" class="mt-4 mx-auto" style="max-width: 500px;">
+                        @csrf @method('PUT')
+                        <input type="hidden" name="status" value="finished">
+                        <div class="input-group input-group-lg shadow-sm">
+                            <select name="winner" class="form-select" required>
+                                <option value="" selected disabled>-- Pilih Siapa Pemenangnya? --</option>
+                                <option value="{{ $liveMatch->fighterA->name ?? '' }}">{{ $liveMatch->fighterA->name ?? '' }}</option>
+                                <option value="{{ $liveMatch->fighterB->name ?? '' }}">{{ $liveMatch->fighterB->name ?? '' }}</option>
+                                <option value="Draw">Draw (Seri)</option>
+                            </select>
+                            <button type="submit" class="btn btn-dark fw-bold">Akhiri Match</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        @elseif($upcomingList->isNotEmpty())
+            @php $nextMatch = $upcomingList->first(); @endphp
+            <div class="card border-primary shadow border-2">
+                <div class="card-header bg-primary text-white fs-5">
+                    <i class="fas fa-forward me-2"></i> PERTANDINGAN SELANJUTNYA (NEXT MATCH)
+                </div>
+                <div class="card-body text-center py-5 bg-white">
+                    <h2 class="fw-black" style="font-size: 2.2rem;">
+                        {{ $nextMatch->fighterA->name ?? 'TBA' }} 
+                        <span class="text-primary mx-3 fs-4 font-italic">VS</span> 
+                        {{ $nextMatch->fighterB->name ?? 'TBA' }}
+                    </h2>
+                    <p class="text-muted mt-2"><i class="far fa-clock"></i> Jadwal: {{ \Carbon\Carbon::parse($nextMatch->scheduled_at)->format('d M Y, H:i') }} WIB</p>
+                    
+                    <form action="{{ route('admin.matches.updateStatus', $nextMatch->id) }}" method="POST" class="mt-4">
+                        @csrf @method('PUT')
+                        <input type="hidden" name="status" value="on_going">
+                        <button type="submit" class="btn btn-success btn-lg shadow"><i class="fas fa-play-circle me-2"></i> Mulai Match Ini (Set Live)</button>
+                    </form>
+                </div>
+            </div>
+        @else
+            <div class="alert alert-secondary text-center py-4 rounded-3 mb-4">
+                <i class="fas fa-box-open fa-2x mb-2 text-muted"></i><br>Belum ada jadwal pertandingan yang tersedia.
+            </div>
+        @endif
+
+        <div class="row mt-5">
+            <div class="col-lg-8">
+                <h4 class="mb-3 fw-bold"><i class="fas fa-list-ul text-warning me-2"></i> 3. Fight Card (Antrean)</h4>
+                <div class="card p-3">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Petarung</th>
+                                <th>Jadwal</th>
+                                <th>Aksi Cepat</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @php
+                                // Sembunyikan $nextMatch dari tabel antrean jika sedang ditampilkan di atas
+                                $tableUpcoming = (!$liveMatch && $upcomingList->isNotEmpty()) ? $upcomingList->slice(1) : $upcomingList;
+                            @endphp
+
+                            @forelse($tableUpcoming as $match)
+                                <tr>
+                                    <td>
+                                        <div class="fighter-name">{{ $match->fighterA->name ?? '-' }}</div>
+                                        <div class="vs-badge">VS</div>
+                                        <div class="fighter-name">{{ $match->fighterB->name ?? '-' }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="fw-bold">{{ \Carbon\Carbon::parse($match->scheduled_at)->format('d M') }}</div>
+                                        <div class="text-muted small">{{ \Carbon\Carbon::parse($match->scheduled_at)->format('H:i') }}</div>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('admin.matches.destroy', $match->id) }}" method="POST" onsubmit="return confirm('Hapus antrean ini?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i> Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="3" class="text-center py-4 text-muted">Tidak ada antrean tersisa.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4 class="mb-3 fw-bold mt-5"><i class="fas fa-history text-success me-2"></i> 4. Hasil Pertandingan</h4>
+                <div class="card p-3">
+                    <table class="table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Match</th>
+                                <th>Pemenang</th>
+                                <th>Hapus Histori</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($finishedList as $match)
+                                <tr>
+                                    <td>
+                                        {{ $match->fighterA->name ?? '-' }} <span class="text-danger mx-1">vs</span> {{ $match->fighterB->name ?? '-' }}
+                                    </td>
+                                    <td>
+                                        <span class="badge bg-success px-3 py-2"><i class="fas fa-trophy me-1"></i> {{ $match->winner }}</span>
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('admin.matches.destroy', $match->id) }}" method="POST" onsubmit="return confirm('Hapus hasil ini?')">
+                                            @csrf @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-light text-danger"><i class="fas fa-times"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr><td colspan="3" class="text-center py-4 text-muted">Belum ada pertandingan yang selesai.</td></tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card bg-gradient-dark">
+                    <div class="card-header fs-5 border-bottom border-secondary"><i class="fas fa-plus-circle me-2"></i> Buat Jadwal</div>
+                    <div class="card-body p-4">
+                        <form action="{{ route('admin.matches.store') }}" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="form-label text-light">Sudut Merah</label>
+                                <select name="fighter_a_id" class="form-select" required>
+                                    <option value="" selected disabled>Pilih Petarung A</option>
+                                    @foreach($fighters as $fighter)
+                                        <option value="{{ $fighter->id }}">{{ $fighter->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="text-center mb-3"><span class="vs-badge">VS</span></div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label text-light">Sudut Biru</label>
+                                <select name="fighter_b_id" class="form-select" required>
+                                    <option value="" selected disabled>Pilih Petarung B</option>
+                                    @foreach($fighters as $fighter)
+                                        <option value="{{ $fighter->id }}">{{ $fighter->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label text-light">Jadwal Tanding</label>
+                                <input type="datetime-local" name="scheduled_at" class="form-control" required>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-danger w-100 py-2 fw-bold">Tambahkan ke Antrean</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
