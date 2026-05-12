@@ -38,6 +38,7 @@ Route::prefix('admin')->middleware(AdminAuthMiddleware::class)->group(function (
     // Manajemen Petarung (Fighters)
     Route::get('/fighters', [FighterController::class, 'index'])->name('admin.fighters.index');
     Route::post('/fighters', [FighterController::class, 'store'])->name('admin.fighters.store');
+    Route::put('/fighters/{id}', [FighterController::class, 'update'])->name('admin.fighters.update');
     Route::delete('/fighters/{id}', [FighterController::class, 'destroy'])->name('admin.fighters.destroy');
     
 });

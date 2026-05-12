@@ -25,10 +25,21 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="alert alert-danger mb-4">
+                <strong>Data gagal disimpan!</strong>
+                <ul class="mb-0 mt-2">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <div class="row">
             <div class="col-lg-4">
-                <div class="card mb-4">
-                    <div class="card-header bg-dark text-white fw-bold">Tambah Petarung Baru</div>
+                <div class="card mb-4 border-danger">
+                    <div class="card-header bg-danger text-white fw-bold"><i class="fas fa-user-plus me-2"></i> Tambah Petarung Baru</div>
                     <div class="card-body">
                         <form action="{{ route('admin.fighters.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -54,7 +65,7 @@
                                 <label class="form-label">Foto Profil</label>
                                 <input type="file" name="photo" class="form-control" accept="image/*">
                             </div>
-                            <button type="submit" class="btn btn-danger w-100">Simpan Data</button>
+                            <button type="submit" class="btn btn-dark w-100">Simpan Data</button>
                         </form>
                     </div>
                 </div>
@@ -64,7 +75,7 @@
                 <div class="card">
                     <div class="table-responsive p-3">
                         <table class="table align-middle">
-                            <thead>
+                            <thead class="table-light">
                                 <tr>
                                     <th>Foto</th>
                                     <th>Nama / Negara</th>
@@ -91,22 +102,68 @@
                                         <span class="badge bg-light text-dark border">{{ $fighter->weight_kg }} kg</span>
                                     </td>
                                     <td>
-                                        @if ($errors->any())
-                                        <div class="alert alert-danger mb-4">
-                                            <strong>Data gagal disimpan!</strong>
-                                            <ul class="mb-0 mt-2">
-                                                @foreach ($errors->all() as $error)
-                                                    <li>{{ $error }}</li>
-                                                @endforeach
-                                            </ul>
+                                        <div class="d-flex gap-2">
+                                            <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#editModal{{ $fighter->id }}">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+
+                                            <form action="{{ route('admin.fighters.destroy', $fighter->id) }}" method="POST" onsubmit="return confirm('Hapus petarung ini secara permanen?')">
+                                                @csrf @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                                            </form>
                                         </div>
-                                    @endif
-                                        <form action="{{ route('admin.fighters.destroy', $fighter->id) }}" method="POST" onsubmit="return confirm('Hapus petarung ini?')">
-                                            @csrf @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
-                                        </form>
                                     </td>
                                 </tr>
+
+                                <div class="modal fade" id="editModal{{ $fighter->id }}" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-warning text-dark">
+                                                <h5 class="modal-title fw-bold"><i class="fas fa-edit me-2"></i> Edit Petarung: {{ $fighter->name }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <form action="{{ route('admin.fighters.update', $fighter->id) }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                @method('PUT') <div class="modal-body">
+                                                    <div class="mb-3 text-center">
+                                                        @if($fighter->photo)
+                                                            <img src="{{ asset('storage/' . $fighter->photo) }}" class="fighter-thumb mb-2" style="width: 80px; height: 80px;">
+                                                            <div class="small text-muted">Foto Saat Ini</div>
+                                                        @endif
+                                                    </div>
+
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Nama Lengkap</label>
+                                                        <input type="text" name="name" class="form-control" value="{{ $fighter->name }}" required>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Asal Negara</label>
+                                                        <input type="text" name="country" class="form-control" value="{{ $fighter->country }}" required>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-6 mb-3">
+                                                            <label class="form-label">Tinggi (cm)</label>
+                                                            <input type="number" name="height_cm" class="form-control" value="{{ $fighter->height_cm }}" required>
+                                                        </div>
+                                                        <div class="col-6 mb-3">
+                                                            <label class="form-label">Berat (kg)</label>
+                                                            <input type="number" name="weight_kg" class="form-control" value="{{ $fighter->weight_kg }}" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <label class="form-label">Ganti Foto Profil <span class="text-danger small">(Opsional)</span></label>
+                                                        <input type="file" name="photo" class="form-control" accept="image/*">
+                                                        <small class="text-muted">Biarkan kosong jika tidak ingin mengganti foto.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-warning fw-bold">Simpan Perubahan</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                                 @empty
                                 <tr>
                                     <td colspan="4" class="text-center py-4">Belum ada data petarung.</td>
@@ -119,5 +176,7 @@
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

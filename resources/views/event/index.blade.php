@@ -15,6 +15,7 @@
     <style>
         :root {
             --primary-red: #e60000;
+            --primary-blue: #0d6efd;
             --dark-bg: #0a0a0a;
             --card-bg: #141414;
             --text-main: #ffffff;
@@ -29,7 +30,7 @@
             background-attachment: fixed;
         }
 
-        h1, h2, h3, .fighter-name, .vs-text, .live-badge, .highlight-title {
+        h1, h2, h3, .fighter-name, .vs-text, .live-badge, .highlight-title, .h2h-header {
             font-family: 'Oswald', sans-serif;
             text-transform: uppercase;
             letter-spacing: 1px;
@@ -63,28 +64,168 @@
         }
         .iframe-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
 
-        /* HIGHLIGHT MATCH (Live / Next) */
-        .highlight-match {
-            background: var(--card-bg);
-            border: 1px solid #333;
+        /* ==================== HEAD-TO-HEAD TV CARD (NEW FORMAT - MIRIP IMAGE_8.PNG) ==================== */
+        .head-to-head-card {
+            background-color: #ffffff;
+            color: #111;
             border-radius: 12px;
-            text-align: center;
-            position: relative;
             overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+            border: 1px solid #ddd;
+            margin-bottom: 50px;
+            position: relative;
         }
-        .highlight-live { border-color: var(--primary-red); box-shadow: 0 0 30px rgba(230,0,0,0.2); }
-        .highlight-next { border-color: #0d6efd; box-shadow: 0 0 30px rgba(13,110,253,0.15); }
         
-        .highlight-header { padding: 12px; font-weight: 700; letter-spacing: 2px; font-size: 1.1rem; }
-        .bg-live { background: var(--primary-red); color: white; animation: pulse 1.5s infinite; }
-        .bg-next { background: #0d6efd; color: white; }
+        /* Red/Blue corner bars at top */
+        .corner-bars {
+            height: 6px;
+            width: 100%;
+            display: flex;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 2;
+        }
+        .red-bar { background-color: var(--primary-red); flex: 1; }
+        .blue-bar { background-color: var(--primary-blue); flex: 1; }
+        
+        .h2h-body { padding: 50px 30px 0px; position: relative; }
+        
+        /* H2H Photo Setup */
+        .h2h-photo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+        }
+        .h2h-photo {
+            flex: 1;
+            height: 380px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        /* optional: Makes it look more like image_8.png */
+        .h2h-photo-wrapper { 
+            position: relative; 
+            flex: 1; 
+            display: flex; 
+            justify-content: center; 
+            align-items: flex-end; 
+        }
+        
+        /* VS Text in the center */
+        .h2h-vs {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Oswald', sans-serif;
+            font-size: 2rem;
+            color: #888;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-style: italic;
+            z-index: 5;
+            background-color: rgba(255,255,255,0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
+        
+        /* Fighter Details (Names, Countries) in image_8.png style */
+        .h2h-details {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-top: -80px; /* Overlap photos */
+            position: relative;
+            z-index: 4;
+            padding-bottom: 20px;
+        }
+        
+        .fighter-info-box { flex: 1; text-align: center; }
+        .info-red { text-align: right; margin-right: 150px; }
+        .info-blue { text-align: left; margin-left: 150px; }
+        
+        .info-box-corner-label { 
+            font-size: 0.8rem; 
+            color: #666; 
+            text-transform: uppercase; 
+            margin-bottom: 5px; 
+            font-weight: 600; 
+            letter-spacing: 1px;
+        }
+        .info-red .info-box-corner-label { color: var(--primary-red); }
+        .info-blue .info-box-corner-label { color: var(--primary-blue); }
+        
+        .info-box-fighter-name { 
+            font-family: 'Oswald', sans-serif; 
+            font-size: 2rem; 
+            font-weight: 700; 
+            margin: 0; 
+            color: #111; 
+            line-height: 1;
+        }
+        
+        /* WIN Badge */
+        .badge-win {
+            background-color: var(--primary-red);
+            color: #fff;
+            padding: 5px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            position: absolute;
+            top: -30px;
+        }
+        .info-red .badge-win { right: 0; }
+        .info-blue .badge-win { left: 0; }
 
-        .highlight-body { padding: 40px 20px; }
-        .highlight-title { font-size: 3rem; margin-bottom: 15px; }
-        .vs-highlight { color: var(--primary-red); font-style: italic; margin: 0 30px; font-size: 2.5rem; }
-        .highlight-next .vs-highlight { color: #0d6efd; }
+        /* General Header Teks (Atas-Tengah) */
+        .h2h-header { 
+            text-align: center; 
+            padding: 15px 0; 
+            margin-bottom: 10px;
+            color: #111;
+            font-weight: 700;
+        }
 
-        /* SECTIONS & CARDS */
+        /* H2H Footer (Flags & Country Names) */
+        .h2h-footer {
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+            padding: 12px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .footer-group { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; color: #111;}
+        .country-flag { width: 30px; border-radius: 3px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* Banner Status di Atas Kartu */
+        .highlight-status-banner {
+            border-radius: 12px 12px 0 0;
+            padding: 8px 15px;
+            text-align: center;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: 'Oswald', sans-serif;
+            color: #fff;
+            margin-bottom: -5px; /* Sits on top of the bars */
+            position: relative;
+            z-index: 3;
+        }
+        .status-live { background-color: var(--primary-red); animation: pulse 1.5s infinite; }
+        .status-next { background-color: var(--primary-blue); }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
+
+        /* ==================== END HEAD-TO-HEAD TV CARD ==================== */
+
+        /* SECTIONS & CARDS (GLOBAL DARK THEME) */
         .section-title { font-size: 2rem; font-weight: 700; border-left: 6px solid var(--primary-red); padding-left: 15px; margin-bottom: 25px; color: #fff; }
         .match-card {
             background: var(--card-bg);
@@ -111,13 +252,14 @@
         .bg-coming { background: #222; color: #ccc; border: 1px solid #444; }
         .bg-winner { background: #198754; color: #fff; }
 
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.7; } 100% { opacity: 1; } }
-
         @media (max-width: 768px) {
+            .h2h-photo { height: 200px; }
+            .h2h-details { margin-top: -50px; flex-direction: column; align-items: center; }
+            .fighter-info-box { margin: 0; margin-bottom: 15px; text-align: center; }
+            .info-blue { text-align: center; margin: 0;}
+            .info-box-fighter-name { font-size: 1.5rem; }
             .match-card { flex-direction: column; }
             .match-meta { text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px solid #333; width: 100%; }
-            .highlight-title { font-size: 2rem; }
-            .vs-highlight { font-size: 1.5rem; margin: 0 15px; }
         }
     </style>
 </head>
@@ -165,37 +307,152 @@
 
                 <div class="mb-5">
                     @if($onGoingMatch)
-                        <div class="highlight-match highlight-live shadow-lg">
-                            <div class="highlight-header bg-live"><i class="fas fa-circle me-2"></i> SEDANG BERTANDING (LIVE NOW)</div>
-                            <div class="highlight-body">
-                                <div class="highlight-title">
-                                    {{ $onGoingMatch->fighterA->name ?? 'TBA' }}
-                                    <span class="vs-highlight">VS</span>
-                                    {{ $onGoingMatch->fighterB->name ?? 'TBA' }}
+                        <div class="highlight-status-banner status-live mx-auto" style="max-width: 500px;">
+                            <i class="fas fa-circle me-2 animation-pulse"></i> LIVE NOW
+                        </div>
+                        
+                        <div class="head-to-head-card">
+                            <div class="corner-bars">
+                                <div class="red-bar"></div>
+                                <div class="blue-bar"></div>
+                            </div>
+                            
+                            <div class="h2h-header border-bottom">
+                                <h3 class="m-0 fs-4">COMBAT ARENA MANAGEMENT - MAIN EVENT</h3>
+                                <p class="text-muted m-0 small">LIGHTWEIGHT TITLE BOUT</p>
+                            </div>
+                            
+                            <div class="h2h-body">
+                                <div class="h2h-photo-container">
+                                    <div class="h2h-photo-wrapper">
+                                        @if($onGoingMatch->fighterA->photo)
+                                            <img src="{{ asset('storage/' . $onGoingMatch->fighterA->photo) }}" class="h2h-photo" alt="{{ $onGoingMatch->fighterA->name }}">
+                                        @else
+                                            <div class="h2h-photo d-inline-flex align-items-center justify-content-center" style="background: #eee;">
+                                                <i class="fas fa-user-ninja fa-7x text-muted"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <div class="h2h-vs">VS</div>
+                                    
+                                    <div class="h2h-photo-wrapper">
+                                        @if($onGoingMatch->fighterB->photo)
+                                            <img src="{{ asset('storage/' . $onGoingMatch->fighterB->photo) }}" class="h2h-photo" alt="{{ $onGoingMatch->fighterB->name }}">
+                                        @else
+                                            <div class="h2h-photo d-inline-flex align-items-center justify-content-center" style="background: #eee;">
+                                                <i class="fas fa-user-ninja fa-7x text-muted"></i>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="fighter-stats mt-4 fs-5">
-                                    <span class="text-light me-4"><i class="fas fa-flag text-muted"></i> {{ $onGoingMatch->fighterA->country ?? '-' }}</span>
-                                    <span class="text-light"><i class="fas fa-flag text-muted"></i> {{ $onGoingMatch->fighterB->country ?? '-' }}</span>
+                                
+                                <div class="h2h-details px-4">
+                                    <div class="fighter-info-box info-red">
+                                        <div class="position-relative">
+                                            <div class="info-box-corner-label">Red Corner</div>
+                                            <h4 class="info-box-fighter-name">{{ $onGoingMatch->fighterA->name ?? 'TBA' }}</h4>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="fighter-info-box info-blue">
+                                        <div class="position-relative">
+                                            <div class="info-box-corner-label">Blue Corner</div>
+                                            <h4 class="info-box-fighter-name">{{ $onGoingMatch->fighterB->name ?? 'TBA' }}</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            
+                            <div class="h2h-footer">
+                                <div class="footer-group">
+                                    <img src="{{ asset('img/flags/' . strtolower($onGoingMatch->fighterA->country ?? '') . '.png') }}" class="country-flag" alt="{{ $onGoingMatch->fighterA->country ?? '' }}">
+                                    <span>{{ $onGoingMatch->fighterA->country ?? 'N/A' }}</span>
+                                </div>
+                                
+                                <div class="text-danger fw-bold fs-5">LIVE NOW</div>
+                                
+                                <div class="footer-group">
+                                    <span>{{ $onGoingMatch->fighterB->country ?? 'N/A' }}</span>
+                                    <img src="{{ asset('img/flags/' . strtolower($onGoingMatch->fighterB->country ?? '') . '.png') }}" class="country-flag" alt="{{ $onGoingMatch->fighterB->country ?? '' }}">
                                 </div>
                             </div>
                         </div>
+
                     @elseif($nextMatch)
-                        <div class="highlight-match highlight-next shadow-lg">
-                            <div class="highlight-header bg-next"><i class="fas fa-forward me-2"></i> PERTANDINGAN SELANJUTNYA</div>
-                            <div class="highlight-body">
-                                <div class="highlight-title">
-                                    {{ $nextMatch->fighterA->name ?? 'TBA' }}
-                                    <span class="vs-highlight">VS</span>
-                                    {{ $nextMatch->fighterB->name ?? 'TBA' }}
+                        <div class="highlight-status-banner status-next mx-auto" style="max-width: 500px;">
+                            <i class="fas fa-forward me-2"></i> CLOSTEST UPCOMING FIGHT
+                        </div>
+                        
+                        <div class="head-to-head-card">
+                            <div class="corner-bars">
+                                <div class="red-bar"></div>
+                                <div class="blue-bar"></div>
+                            </div>
+                            
+                            <div class="h2h-header border-bottom">
+                                <h3 class="m-0 fs-4">COMBAT ARENA - NEXT BOUT</h3>
+                                <p class="text-muted m-0 small">MIDNIGHT MADNESS EVENT</p>
+                            </div>
+                            
+                            <div class="h2h-body">
+                                <div class="h2h-photo-container">
+                                    <div class="h2h-photo-wrapper">
+                                        @if($nextMatch->fighterA->photo)
+                                            <img src="{{ asset('storage/' . $nextMatch->fighterA->photo) }}" class="h2h-photo" alt="{{ $nextMatch->fighterA->name }}">
+                                        @else
+                                            <div class="h2h-photo d-inline-flex align-items-center justify-content-center" style="background: #eee;">
+                                                <i class="fas fa-user-ninja fa-7x text-muted"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    
+                                    <div class="h2h-vs">VS</div>
+                                    
+                                    <div class="h2h-photo-wrapper">
+                                        @if($nextMatch->fighterB->photo)
+                                            <img src="{{ asset('storage/' . $nextMatch->fighterB->photo) }}" class="h2h-photo" alt="{{ $nextMatch->fighterB->name }}">
+                                        @else
+                                            <div class="h2h-photo d-inline-flex align-items-center justify-content-center" style="background: #eee;">
+                                                <i class="fas fa-user-ninja fa-7x text-muted"></i>
+                                            </div>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="fighter-stats mt-4">
-                                    <span class="badge bg-dark fs-5 px-4 py-2"><i class="far fa-clock text-primary"></i> Jadwal: {{ \Carbon\Carbon::parse($nextMatch->scheduled_at)->format('d M Y - H:i') }} WIB</span>
+                                
+                                <div class="h2h-details px-4">
+                                    <div class="fighter-info-box info-red">
+                                        <div class="info-box-corner-label">Red Corner</div>
+                                        <h4 class="info-box-fighter-name">{{ $nextMatch->fighterA->name ?? 'TBA' }}</h4>
+                                    </div>
+                                    
+                                    <div class="fighter-info-box info-blue">
+                                        <div class="info-box-corner-label">Blue Corner</div>
+                                        <h4 class="info-box-fighter-name">{{ $nextMatch->fighterB->name ?? 'TBA' }}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="h2h-footer">
+                                <div class="footer-group">
+                                    <img src="{{ asset('img/flags/' . strtolower($nextMatch->fighterA->country ?? '') . '.png') }}" class="country-flag" alt="{{ $nextMatch->fighterA->country ?? '' }}">
+                                    <span>{{ $nextMatch->fighterA->country ?? 'N/A' }}</span>
+                                </div>
+                                
+                                <div class="text-muted fw-bold">
+                                    <i class="far fa-clock me-1"></i> {{ \Carbon\Carbon::parse($nextMatch->scheduled_at)->format('H:i') }} WIB
+                                </div>
+                                
+                                <div class="footer-group">
+                                    <span>{{ $nextMatch->fighterB->country ?? 'N/A' }}</span>
+                                    <img src="{{ asset('img/flags/' . strtolower($nextMatch->fighterB->country ?? '') . '.png') }}" class="country-flag" alt="{{ $nextMatch->fighterB->country ?? '' }}">
                                 </div>
                             </div>
                         </div>
                     @endif
                 </div>
-
+                
                 <div class="mb-5">
                     <h2 class="section-title">UPCOMING FIGHTS</h2>
                     
