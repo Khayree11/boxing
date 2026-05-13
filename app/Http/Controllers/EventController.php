@@ -52,4 +52,9 @@ class EventController extends Controller
 
         return view('event.events', compact('eventName', 'eventLocation', 'eventGmaps', 'eventTicket', 'eventPoster'));
     }
+
+    public function about()
+    {
+        return view('event.about');
+    }
 }

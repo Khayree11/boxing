@@ -16,6 +16,8 @@ Route::get('/fighters', [EventController::class, 'fighters'])->name('fighters');
 // Halaman Events (Sudah benar mengarah ke desain Poster Tiket)
 Route::get('/events', [EventController::class, 'eventsList'])->name('events');
 
+Route::get('/about', [EventController::class, 'about'])->name('about');
+
 
 // ==========================================
 // 2. JALUR LOGIN ADMIN
