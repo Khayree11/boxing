@@ -166,6 +166,78 @@
         }
         .history-opponent { font-size: 1.2rem; font-weight: 600; color: #fff; line-height: 1.2;}
         .history-date { font-size: 0.8rem; color: #888; }
+        
+        /* ==================== COMBAT ARENA PREMIUM FOOTER ==================== */
+        .combat-footer {
+            background-color: #050505;
+            border-top: 1px solid #222;
+            padding: 70px 0 30px;
+            font-family: 'Oswald', sans-serif;
+            color: #fff;
+            margin-top: 50px;
+        }
+        .footer-brand {
+            font-size: 2.8rem;
+            font-weight: 800;
+            font-style: italic;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .footer-bio {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: #999;
+            line-height: 1.7;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        .footer-heading {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            color: #fff;
+        }
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .footer-links li {
+            margin-bottom: 15px;
+        }
+        .footer-links a {
+            color: #aaa;
+            text-decoration: none;
+            font-family: 'Oswald', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+        .footer-links a:hover {
+            color: var(--primary-red);
+            transform: translateX(8px);
+        }
+        .footer-bottom {
+            border-top: 1px solid #222;
+            padding-top: 25px;
+            margin-top: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+        .footer-bottom-link {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-bottom-link:hover {
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -330,7 +402,60 @@
 
         </div>
     </div>
-
+    <footer class="combat-footer">
+        <div class="container">
+            <div class="row gx-lg-5">
+                
+                <div class="col-lg-5 col-md-12 mb-5 mb-lg-0">
+                    <h2 class="footer-brand">COMBAT ARENA.</h2>
+                    <p class="footer-bio">
+                        Combat Arena is committed to fostering growth within the combat sports community, offering fans exhilarating experiences and unparalleled access to the thrill of live competition. As we continue to evolve, our goal remains steadfast.
+                    </p>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-5 mb-md-0">
+                    <h5 class="footer-heading">SOCIAL MEDIA</h5>
+                    <ul class="footer-links">
+                        <li><a href="https://instagram.com/MAsukkan_Username" target="_blank">INSTAGRAM</a></li>
+                        <li><a href="https://youtube.com/MAsukkan_Channel" target="_blank">YOUTUBE</a></li>
+                        <li><a href="https://tiktok.com/@MAsukkan_Username" target="_blank">TIKTOK</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-2 col-md-4 mb-5 mb-md-0">
+                    <h5 class="footer-heading">PAGES</h5>
+                    <ul class="footer-links">
+                        <li><a href="{{ route('home') }}">HOME</a></li>
+                        <li><a href="{{ route('events') }}">EVENTS</a></li>
+                        <li><a href="{{ route('about') }}">ABOUT</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="footer-heading">CONTACT</h5>
+                    <ul class="footer-links">
+                        <li><a href="mailto:official@combatarena.com">OFFICIAL@COMBATARENA.COM</a></li>
+                        <li class="text mt-3" style="font-family: 'Poppins', sans-serif; font-size: 0.9rem; text-transform: uppercase;">
+                            <i class="fas fa-map-marker-alt text-danger me-2"></i> JAKARTA, INDONESIA
+                        </li>
+                    </ul>
+                </div>
+                
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="row align-items-center">
+                    <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+                        © 2026 Combat Arena Management all rights reserved
+                    </div>
+                    <div class="col-md-6 text-center text-md-end">
+                        <a href="#" class="footer-bottom-link me-4">Privacy & Policy</a>
+                        <a href="#" class="footer-bottom-link">Term & Condition</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -635,7 +635,6 @@
                                             <h5 class="mb-0">{{ $match->fighterA->weight_kg ?? '-' }} kg</h5>
                                         </div>
                                         <div class="col-md-2 d-flex flex-column align-items-center justify-content-center mb-3 mb-md-0">
-                                            <span class="badge bg-success text-light px-3 py-1 fs-6 mb-2">W: {{ $match->winner ?? 'Draw' }}</span>
                                             <span class="badge bg-light text-dark px-2 py-1 fs-6">TALE OF THE TAPE</span>
                                         </div>
                                         <div class="col-md-5 ps-md-4">
