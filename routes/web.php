@@ -7,23 +7,27 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\FighterController;
 use App\Http\Middleware\AdminAuthMiddleware;
 
+// ==========================================
 // 1. HALAMAN PENGUNJUNG (PUBLIK)
+// ==========================================
 Route::get('/', [EventController::class, 'index'])->name('home');
 Route::get('/fighters', [EventController::class, 'fighters'])->name('fighters');
 
-// Halaman Events (Sementara masih tulisan)
-Route::get('/events', function () {
-    return "Halaman Jadwal Event Lengkap (Coming Soon)";
-})->name('events');
+// Halaman Events (Sudah benar mengarah ke desain Poster Tiket)
+Route::get('/events', [EventController::class, 'eventsList'])->name('events');
 
 
+// ==========================================
 // 2. JALUR LOGIN ADMIN
+// ==========================================
 Route::get('/admin', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/admin', [AdminAuthController::class, 'login']);
 Route::post('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
 
-// 3. HALAMAN MANAJEMEN ADMIN (Terproteksi Middleware)
+// ==========================================
+// 3. HALAMAN MANAJEMEN ADMIN (Terproteksi)
+// ==========================================
 Route::prefix('admin')->middleware(AdminAuthMiddleware::class)->group(function () {
     
     // Manajemen Pertandingan
@@ -34,11 +38,8 @@ Route::prefix('admin')->middleware(AdminAuthMiddleware::class)->group(function (
     
     // Manajemen Setting Global (YouTube)
     Route::post('/settings/youtube', [AdminMatchController::class, 'updateYoutube'])->name('admin.settings.youtube');
-
-    // Manajemen Setting Global (YouTube)
-    Route::post('/settings/youtube', [AdminMatchController::class, 'updateYoutube'])->name('admin.settings.youtube');
     
-    // TAMBAHKAN BARIS INI UNTUK EVENT TIKET
+    // Manajemen Setting Global (Event & Tiket)
     Route::post('/settings/event', [AdminMatchController::class, 'updateEvent'])->name('admin.settings.event');
 
     // Manajemen Petarung (Fighters)

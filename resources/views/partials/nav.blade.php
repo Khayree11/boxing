@@ -27,10 +27,6 @@
                     <a class="nav-link {{ request()->is('about') ? 'active' : '' }}" href="#">ABOUT</a>
                 </li>
                 
-                <li class="nav-item ms-lg-3 mt-3 mt-lg-0">
-                    <a class="btn btn-outline-danger btn-sm px-3 w-100" href="{{ route('admin.login') }}">ADMIN</a>
-                </li>
-                
             </ul>
         </div>
     </div>
