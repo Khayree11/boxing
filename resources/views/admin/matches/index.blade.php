@@ -48,14 +48,62 @@
             </div>
         @endif
 
-        <div class="card border-danger">
-            <div class="card-header bg-danger text-white"><i class="fab fa-youtube me-2"></i> 1. Pengaturan Link Live Stream</div>
-            <div class="card-body">
-                <form action="{{ route('admin.settings.youtube') }}" method="POST" class="d-flex gap-3">
-                    @csrf
-                    <input type="url" name="youtube_link" class="form-control form-control-lg" placeholder="Masukkan Link YouTube (contoh: https://youtu.be/...)" value="{{ $youtubeLink->value ?? '' }}">
-                    <button type="submit" class="btn btn-dark btn-lg" style="white-space: nowrap;">Update Link</button>
-                </form>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card border-danger mb-4">
+                    <div class="card-header bg-danger text-white"><i class="fab fa-youtube me-2"></i> 1. Link Live Stream</div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.settings.youtube') }}" method="POST">
+                            @csrf
+                            <input type="url" name="youtube_link" class="form-control mb-2" placeholder="https://youtu.be/..." value="{{ $youtubeLink->value ?? '' }}">
+                            <button type="submit" class="btn btn-dark w-100">Update Link YouTube</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card border-primary mb-4">
+                    <div class="card-header bg-primary text-white"><i class="fas fa-ticket-alt me-2"></i> 2. Pengaturan Info Event & Tiket</div>
+                    <div class="card-body">
+                        @php
+                            $eName = \App\Models\Setting::where('key', 'event_name')->value('value');
+                            $eLoc = \App\Models\Setting::where('key', 'event_location')->value('value');
+                            $eGmaps = \App\Models\Setting::where('key', 'event_gmaps')->value('value');
+                            $eTicket = \App\Models\Setting::where('key', 'event_ticket')->value('value');
+                            $ePoster = \App\Models\Setting::where('key', 'event_poster')->value('value');
+                        @endphp
+                        <form action="{{ route('admin.settings.event') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Nama Event</label>
+                                    <input type="text" name="event_name" class="form-control form-control-sm" value="{{ $eName }}" placeholder="Ex: BYON KICKSTRIKING ASIA">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label small fw-bold">Banner/Thumbnail Event</label>
+                                    <input type="file" name="event_poster" class="form-control form-control-sm" accept="image/*">
+                                    @if($ePoster) <small class="text-success" style="font-size: 11px;"><i class="fas fa-check"></i> Banner terpasang</small> @endif
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Lokasi Venue</label>
+                                    <input type="text" name="event_location" class="form-control form-control-sm" value="{{ $eLoc }}" placeholder="Ex: Gelora Bung Karno">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Link Google Maps</label>
+                                    <input type="url" name="event_gmaps" class="form-control form-control-sm" value="{{ $eGmaps }}" placeholder="https://maps.google.com/...">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label small fw-bold">Link Tiket (Opsional)</label>
+                                    <input type="url" name="event_ticket" class="form-control form-control-sm" value="{{ $eTicket }}" placeholder="https://tiket.com/...">
+                                </div>
+                                <div class="col-12 mt-3 text-end">
+                                    <button type="submit" class="btn btn-primary px-4">Simpan Info Event</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -65,7 +113,7 @@
             $finishedList = $matches->where('status', 'finished')->sortByDesc('scheduled_at');
         @endphp
 
-        <h4 class="mb-3 fw-bold mt-5"><i class="fas fa-crosshairs text-danger me-2"></i> 2. Sorotan Utama</h4>
+        <h4 class="mb-3 fw-bold mt-5"><i class="fas fa-crosshairs text-danger me-2"></i> 3. Sorotan Utama</h4>
         
         @if($liveMatch)
             <div class="card border-danger shadow border-2">
@@ -124,7 +172,7 @@
 
         <div class="row mt-5">
             <div class="col-lg-8">
-                <h4 class="mb-3 fw-bold"><i class="fas fa-list-ul text-warning me-2"></i> 3. Fight Card (Antrean)</h4>
+                <h4 class="mb-3 fw-bold"><i class="fas fa-list-ul text-warning me-2"></i> 4. Fight Card (Antrean)</h4>
                 <div class="card p-3">
                     <table class="table align-middle">
                         <thead>
@@ -136,7 +184,6 @@
                         </thead>
                         <tbody>
                             @php
-                                // Sembunyikan $nextMatch dari tabel antrean jika sedang ditampilkan di atas
                                 $tableUpcoming = (!$liveMatch && $upcomingList->isNotEmpty()) ? $upcomingList->slice(1) : $upcomingList;
                             @endphp
 
@@ -165,7 +212,7 @@
                     </table>
                 </div>
 
-                <h4 class="mb-3 fw-bold mt-5"><i class="fas fa-history text-success me-2"></i> 4. Hasil Pertandingan</h4>
+                <h4 class="mb-3 fw-bold mt-5"><i class="fas fa-history text-success me-2"></i> 5. Hasil Pertandingan</h4>
                 <div class="card p-3">
                     <table class="table align-middle">
                         <thead>
@@ -201,10 +248,11 @@
 
             <div class="col-lg-4">
                 <div class="card bg-gradient-dark">
-                    <div class="card-header fs-5 border-bottom border-secondary"><i class="fas fa-plus-circle me-2"></i> Buat Jadwal</div>
+                    <div class="card-header fs-5 border-bottom border-secondary"><i class="fas fa-plus-circle me-2"></i> Buat Jadwal Fight</div>
                     <div class="card-body p-4">
                         <form action="{{ route('admin.matches.store') }}" method="POST">
                             @csrf
+                            
                             <div class="mb-3">
                                 <label class="form-label text-light">Sudut Merah</label>
                                 <select name="fighter_a_id" class="form-select" required>

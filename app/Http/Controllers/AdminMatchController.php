@@ -21,25 +21,18 @@ class AdminMatchController extends Controller
         return view('admin.matches.index', compact('matches', 'fighters', 'youtubeLink'));
     }
 
-    // Menyimpan jadwal pertandingan baru
+    // Menyimpan jadwal pertandingan baru (Sekarang HANYA untuk jadwal petarung)
     public function store(Request $request)
     {
-        // Validasi sekarang mengecek apakah ID petarung ada di tabel fighters
-        $request->validate([
+        $data = $request->validate([
             'fighter_a_id' => 'required|exists:fighters,id',
-            'fighter_b_id' => 'required|exists:fighters,id|different:fighter_a_id', // Tidak boleh melawan diri sendiri
+            'fighter_b_id' => 'required|exists:fighters,id|different:fighter_a_id',
             'scheduled_at' => 'required|date',
-            'youtube_link' => 'nullable|url'
         ]);
 
-        BoxingMatch::create([
-            'fighter_a_id' => $request->fighter_a_id,
-            'fighter_b_id' => $request->fighter_b_id,
-            'scheduled_at' => $request->scheduled_at,
-            'status' => 'coming_soon',
-            'youtube_link' => $request->youtube_link,
-            'winner' => null // Pastikan saat pertama kali dibuat, tidak ada pemenang
-        ]);
+        $data['status'] = 'coming_soon';
+
+        BoxingMatch::create($data);
 
         return redirect()->back()->with('success', 'Jadwal pertandingan berhasil ditambahkan!');
     }
@@ -77,6 +70,7 @@ class AdminMatchController extends Controller
         return redirect()->back()->with('success', 'Pertandingan berhasil dihapus!');
     }
 
+    // Mengupdate Link Youtube Global
     public function updateYoutube(Request $request)
     {
         $request->validate(['youtube_link' => 'nullable|url']);
@@ -87,5 +81,26 @@ class AdminMatchController extends Controller
         );
 
         return redirect()->back()->with('success', 'Link YouTube Global berhasil diperbarui!');
+    }
+
+    // ========================================================
+    // FUNGSI BARU: Mengupdate Informasi Event & Tiket Global
+    // ========================================================
+    public function updateEvent(Request $request)
+    {
+        $keys = ['event_name', 'event_location', 'event_gmaps', 'event_ticket'];
+        
+        foreach ($keys as $key) {
+            if ($request->has($key)) {
+                Setting::updateOrCreate(['key' => $key], ['value' => $request->$key]);
+            }
+        }
+
+        if ($request->hasFile('event_poster')) {
+            $path = $request->file('event_poster')->store('events', 'public');
+            Setting::updateOrCreate(['key' => 'event_poster'], ['value' => $path]);
+        }
+
+        return redirect()->back()->with('success', 'Informasi Event & Tiket berhasil diperbarui!');
     }
 }

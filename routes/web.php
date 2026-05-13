@@ -35,6 +35,12 @@ Route::prefix('admin')->middleware(AdminAuthMiddleware::class)->group(function (
     // Manajemen Setting Global (YouTube)
     Route::post('/settings/youtube', [AdminMatchController::class, 'updateYoutube'])->name('admin.settings.youtube');
 
+    // Manajemen Setting Global (YouTube)
+    Route::post('/settings/youtube', [AdminMatchController::class, 'updateYoutube'])->name('admin.settings.youtube');
+    
+    // TAMBAHKAN BARIS INI UNTUK EVENT TIKET
+    Route::post('/settings/event', [AdminMatchController::class, 'updateEvent'])->name('admin.settings.event');
+
     // Manajemen Petarung (Fighters)
     Route::get('/fighters', [FighterController::class, 'index'])->name('admin.fighters.index');
     Route::post('/fighters', [FighterController::class, 'store'])->name('admin.fighters.store');
